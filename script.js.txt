@@ -1,0 +1,58 @@
+// simple confetti animator (vanilla JS)
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
+
+function resize(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+let particles = [];
+function spawn(x,y){
+  for(let i=0;i<40;i++){
+    particles.push({
+      x, y,
+      vx:(Math.random()-0.5)*6,
+      vy:(Math.random()-2.5)*6,
+      size:Math.random()*8+4,
+      color: ['#ffd166','#06d6a0','#118ab2','#ef476f'][Math.floor(Math.random()*4)],
+      life: Math.random()*60+60
+    });
+  }
+}
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(let i=particles.length-1;i>=0;i--){
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.12; // gravity
+    p.life--;
+    ctx.save();
+    ctx.translate(p.x,p.y);
+    ctx.rotate((p.life%360)*0.02);
+    ctx.fillStyle = p.color;
+    ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+    ctx.restore();
+    if(p.life <= 0 || p.y > canvas.height+50) particles.splice(i,1);
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+
+document.getElementById('play').addEventListener('click', ()=>{
+  spawn(window.innerWidth/2, window.innerHeight/4);
+});
+
+document.getElementById('download').addEventListener('click', ()=>{
+  const text = document.getElementById('greeting').innerText + '\n' + document.getElementById('message').innerText;
+  const blob = new Blob([text], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'happy-birthday.txt';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+});

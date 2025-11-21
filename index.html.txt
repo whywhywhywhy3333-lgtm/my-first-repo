@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday!</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="cake">
+        <div class="candle">🕯️</div>
+        <div class="flame">✨</div>
+      </div>
+      <h1 id="greeting">Happy Birthday, Friend! 🥳</h1>
+      <p id="message">Wishing you a day full of joy and surprises.</p>
+
+      <div class="buttons">
+        <button id="play">Play Confetti</button>
+        <button id="download">Download Greeting</button>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="confetti"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
